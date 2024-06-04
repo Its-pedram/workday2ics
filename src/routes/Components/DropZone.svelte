@@ -2,12 +2,12 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
-	let calendarXlsx: File;
+	let droppedFile: File;
 
 	function handleFileUpload(event: Event) {
 		let inputElement = event.target as HTMLInputElement;
-		calendarXlsx = inputElement.files![0];
-		dispatch('fileSelected', calendarXlsx);
+		droppedFile = inputElement.files![0];
+		dispatch('fileSelected', droppedFile);
 	}
 
 	function handleDragOver(event: DragEvent) {
@@ -17,8 +17,9 @@
 
 	function handleDrop(event: DragEvent) {
 		event.preventDefault();
-		calendarXlsx = event.dataTransfer!.files[0];
-		dispatch('fileSelected', calendarXlsx);
+		droppedFile = event.dataTransfer!.files[0];
+        console.log(droppedFile);
+		dispatch('fileSelected', droppedFile);
 	}
 
 	function triggerFilePicker() {
