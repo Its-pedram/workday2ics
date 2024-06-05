@@ -13,6 +13,16 @@ export interface Course {
 	location: string;
 }
 
+const dayMapping: { [key: string]: string } = {
+	'Sun': 'SU',
+	'Mon': 'MO',
+	'Tue': 'TU',
+	'Wed': 'WE',
+	'Thu': 'TH',
+	'Fri': 'FR',
+	'Sat': 'SA'
+};
+
 export class WorkdayCal {
 	static courses: Course[];
 
@@ -25,11 +35,11 @@ export class WorkdayCal {
 			alert('Invalid Workday calendar xlsx! Please refer to the help button below.');
 			return;
 		}
-	
+
 		this.courses = this.parseCourses(calWorksheet!);
 		return this.courses;
 	}
-	
+
 	static parseCourses(calWorksheet: ExcelJS.Worksheet): Array<Course> {
 		let courses: Array<Course> = [];
 		for (let i = 3; i <= calWorksheet.rowCount; i++) {
@@ -41,8 +51,8 @@ export class WorkdayCal {
 				format: row.getCell('F').value as string,
 				instructor: row.getCell('G').value as string,
 				startDate: this.convertToDate(meetingPattern[0]),
-				endDate:  this.convertToDate(meetingPattern[1]),
-				meetingDays: meetingPattern[2].split(' '),
+				endDate: this.convertToDate(meetingPattern[1]),
+				meetingDays: meetingPattern[2].split(' ').map((day) => dayMapping[day]),
 				startTime: meetingPattern[3],
 				endTime: meetingPattern[4],
 				location: meetingPattern[5]
@@ -52,7 +62,7 @@ export class WorkdayCal {
 		}
 		return courses;
 	}
-	
+
 	static parseMeetingPatterns(meetingPattern: string): Array<string> {
 		let pattern = meetingPattern.split(' | ');
 		return [
@@ -64,7 +74,7 @@ export class WorkdayCal {
 			pattern[3] ? this.cleanPattern(pattern[3].replace(/-/g, ' ')) : 'Roomless'
 		];
 	}
-	
+
 	static cleanPattern(pattern: string): string {
 		return pattern.replace(/\|/g, '').trim();
 	}
@@ -73,7 +83,19 @@ export class WorkdayCal {
 		// Verify that these columns exist:
 		// Course	Grading Basis	Credits	Section	Section Status	Instructional Format	Instructor	Start Date	End Date	Meeting Patterns
 		// (A2:J2)
-		const expectedColumns = ['', 'Course', 'Grading Basis', 'Credits', 'Section', 'Section Status', 'Instructional Format', 'Instructor', 'Start Date', 'End Date', 'Meeting Patterns'];
+		const expectedColumns = [
+			'',
+			'Course',
+			'Grading Basis',
+			'Credits',
+			'Section',
+			'Section Status',
+			'Instructional Format',
+			'Instructor',
+			'Start Date',
+			'End Date',
+			'Meeting Patterns'
+		];
 		const columns = calWorksheet.getRow(2).values as string[];
 		for (let i = 1; i < expectedColumns.length; i++) {
 			if (columns[i] !== expectedColumns[i]) {
