@@ -1,9 +1,15 @@
 <script lang="ts">
 	import DropZone from './Components/DropZone.svelte';
+	import { parseWorkdayCal } from '$lib/calendar_utils';
 
-	function handleFileSelected(event: Event) {
+	async function handleFileSelected(event: Event) {
 		let calendarXlsx: File = (event as CustomEvent).detail;
+		if (!calendarXlsx || calendarXlsx.type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+			alert('Please upload a valid .xlsx file');
+			return;
+		}
 		console.log(calendarXlsx);
+		await parseWorkdayCal(calendarXlsx);
 	}
 </script>
 

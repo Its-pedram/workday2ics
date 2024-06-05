@@ -18,7 +18,6 @@
 	function handleDrop(event: DragEvent) {
 		event.preventDefault();
 		droppedFile = event.dataTransfer!.files[0];
-        console.log(droppedFile);
 		dispatch('fileSelected', droppedFile);
 	}
 
@@ -47,9 +46,9 @@
 		font-family: Inter, sans-serif;
 	}
 
-	#dropZone.active {
-		border-color: blue;
-	}
+	#dropZone:hover {
+        border-color: orange;
+    }
 
 	#dropZone {
 		border-color: gray;
