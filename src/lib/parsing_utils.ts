@@ -16,10 +16,15 @@ export interface Course {
 export class WorkdayCal {
 	static courses: Course[];
 
-	static async parseWorkdayCal(file: File): Promise<Array<Course>> {
+	static async parseWorkdayCal(file: File): Promise<Course[] | undefined> {
 		const workbook = new ExcelJS.Workbook();
 		await workbook.xlsx.load(await file.arrayBuffer());
 		const calWorksheet = workbook.getWorksheet('View My Saved Schedules');
+
+		if (!calWorksheet || !this.validateWorksheet(calWorksheet)) {
+			alert('Invalid Workday calendar xlsx! Please refer to the help button below.');
+			return;
+		}
 	
 		this.courses = this.parseCourses(calWorksheet!);
 		return this.courses;
@@ -62,5 +67,19 @@ export class WorkdayCal {
 	
 	static cleanPattern(pattern: string): string {
 		return pattern.replace(/\|/g, '').trim();
+	}
+
+	static validateWorksheet(calWorksheet: ExcelJS.Worksheet): boolean {
+		// Verify that these columns exist:
+		// Course	Grading Basis	Credits	Section	Section Status	Instructional Format	Instructor	Start Date	End Date	Meeting Patterns
+		// (A2:J2)
+		const expectedColumns = ['', 'Course', 'Grading Basis', 'Credits', 'Section', 'Section Status', 'Instructional Format', 'Instructor', 'Start Date', 'End Date', 'Meeting Patterns'];
+		const columns = calWorksheet.getRow(2).values as string[];
+		for (let i = 1; i < expectedColumns.length; i++) {
+			if (columns[i] !== expectedColumns[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

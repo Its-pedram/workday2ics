@@ -15,9 +15,10 @@
 			alert('Please upload a valid .xlsx file');
 			return;
 		}
+
 		console.log(calendarXlsx);
 		let courses = await WorkdayCal.parseWorkdayCal(calendarXlsx);
-		generateCalendarFile(courses);
+		if (courses) generateCalendarFile(courses);
 	}
 </script>
 
