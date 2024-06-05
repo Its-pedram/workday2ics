@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DropZone from './Components/DropZone.svelte';
-	import { parseWorkdayCal } from '$lib/calendar_utils';
-	import { makeCalendarEvent } from '$lib/ics_utils';
+	import { WorkdayCal } from '$lib/parsing_utils';
+	import { generateCalendarFile } from '$lib/ics_utils';
 
 	async function handleFileSelected(event: Event) {
 		let calendarXlsx: File = (event as CustomEvent).detail;
@@ -10,13 +10,9 @@
 			return;
 		}
 		console.log(calendarXlsx);
-		await parseWorkdayCal(calendarXlsx);
+		let courses = await WorkdayCal.parseWorkdayCal(calendarXlsx);
+		generateCalendarFile(courses);
 	}
-
-	function handleClick() {
-        // Replace 'param1' and 'param2' with the actual parameters you want to pass
-		makeCalendarEvent('test Course', 'very cool course indeed', 1530466200000, 1530471600000, 'UBC', 'FREQ=WEEKLY;BYDAY=TU,TH;INTERVAL=1;UNTIL=20180816T000000Z');
-    }
 
 </script>
 
@@ -29,8 +25,6 @@
 </div>
 
 <DropZone on:fileSelected={handleFileSelected} />
-
-<button on:click={handleClick}>test dl</button>
 
 <style lang="postcss">
 	:global(html) {

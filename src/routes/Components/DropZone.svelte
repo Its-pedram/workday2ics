@@ -8,6 +8,7 @@
 		let inputElement = event.target as HTMLInputElement;
 		droppedFile = inputElement.files![0];
 		dispatch('fileSelected', droppedFile);
+		inputElement.value = '';
 	}
 
 	function handleDragOver(event: DragEvent) {
