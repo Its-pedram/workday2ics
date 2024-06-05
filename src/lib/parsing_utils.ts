@@ -27,7 +27,7 @@ export class WorkdayCal {
 	
 	static parseCourses(calWorksheet: ExcelJS.Worksheet): Array<Course> {
 		let courses: Array<Course> = [];
-		for (let i = 3; i < calWorksheet.rowCount; i++) {
+		for (let i = 3; i <= calWorksheet.rowCount; i++) {
 			let row = calWorksheet.getRow(i);
 			let meetingPattern = this.parseMeetingPatterns(row.getCell('J').value as string);
 			let course: Course = {
