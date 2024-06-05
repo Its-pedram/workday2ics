@@ -5,8 +5,8 @@ export interface Course {
 	credits: number;
 	format: string;
 	instructor: string;
-	startDate: string;
-	endDate: string;
+	startDate: Date;
+	endDate: Date;
 	meetingDays: Array<string>;
 	startTime: string;
 	endTime: string;
@@ -40,8 +40,8 @@ export class WorkdayCal {
 				credits: row.getCell('C').value as number,
 				format: row.getCell('F').value as string,
 				instructor: row.getCell('G').value as string,
-				startDate: new Date(meetingPattern[0]).toISOString(),
-				endDate:  new Date(meetingPattern[1]).toISOString(),
+				startDate: new Date(meetingPattern[0]),
+				endDate:  new Date(meetingPattern[1]),
 				meetingDays: meetingPattern[2].split(' '),
 				startTime: meetingPattern[3],
 				endTime: meetingPattern[4],
