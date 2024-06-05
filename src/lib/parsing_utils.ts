@@ -49,7 +49,7 @@ export class WorkdayCal {
 				courseName: row.getCell('D').value as string,
 				credits: row.getCell('C').value as number,
 				format: row.getCell('F').value as string,
-				instructor: row.getCell('G').value as string,
+				instructor: ((row.getCell('G').value as string) ? row.getCell('G').value as string : 'Prof. TBA').replace(/\n\n/g, ', '),
 				startDate: this.convertToDate(meetingPattern[0]),
 				endDate: this.convertToDate(meetingPattern[1]),
 				meetingDays: meetingPattern[2].split(' ').map((day) => dayMapping[day]),
