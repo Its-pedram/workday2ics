@@ -27,7 +27,7 @@
 	"packageManager": "yarn@4.2.2",
 	"dependencies": {
 		"autoprefixer": "^10.4.19",
-		"node-xlsx": "^0.24.0",
+		"exceljs": "^4.4.0",
 		"postcss": "^8.4.38",
 		"tailwindcss": "^3.4.3"
 	}
