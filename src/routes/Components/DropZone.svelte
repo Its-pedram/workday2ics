@@ -38,7 +38,7 @@
 	class="border-dashed border-2 h-32 w-64 text-center py-12 m-auto cursor-pointer font-inter"
 	style="color: white;"
 >
-	Click or Drag and Drop file here
+	Click or Drop the file here
 	<input type="file" id="fileUpload" on:change={handleFileUpload} class="hidden" />
 </div>
 

@@ -40,8 +40,8 @@ export class WorkdayCal {
 				credits: row.getCell('C').value as number,
 				format: row.getCell('F').value as string,
 				instructor: row.getCell('G').value as string,
-				startDate: new Date(meetingPattern[0]),
-				endDate:  new Date(meetingPattern[1]),
+				startDate: this.convertToDate(meetingPattern[0]),
+				endDate:  this.convertToDate(meetingPattern[1]),
 				meetingDays: meetingPattern[2].split(' '),
 				startTime: meetingPattern[3],
 				endTime: meetingPattern[4],
@@ -81,5 +81,10 @@ export class WorkdayCal {
 			}
 		}
 		return true;
+	}
+
+	static convertToDate(date: string): Date {
+		let dateSegments = date.split('-');
+		return new Date(Number(dateSegments[0]), Number(dateSegments[1]) - 1, Number(dateSegments[2]));
 	}
 }
