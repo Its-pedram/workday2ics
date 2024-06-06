@@ -24,10 +24,16 @@
 			like a small notebook with a 'X' on it). <br />
 			Note: There are two of those buttons on that page, pick the one closest to your schedule:
 			<br />
-		</p>
+		</p><br>
 		<div class="image-container">
 			<img src="/img/workday-export.png" alt="Workday export" /> <br />
 		</div>
+		<p>❓ Why are there errors on my calendar?</p>
+		<p>
+			➡️ We don't directly have access to nice course data, and purely rely on parsing the terrible
+			excel exports that Workday provides. We're not responsible for any damages that the errors may cause you. You should be fine in most cases if you followed the instructions above. If you found an edge case, let us know on github. <br />
+			<br />
+		</p>
 	</div>
 {/if}
 

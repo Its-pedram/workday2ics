@@ -50,6 +50,10 @@
 	<p style="color: white;">
 		This is a simple tool to convert your Workday calendar (.xlsx) to an .ics file.
 	</p>
+
+	<p style="color: white;">
+		🚨Always double-check your calendars for errors!🚨
+	</p>
 </div>
 
 <div class="dropzone">
