@@ -6,6 +6,10 @@
 	import Footer from './Components/Footer.svelte';
 	import HelpBtn from './Components/HelpBtn.svelte';
 
+	/**
+	 * Handles the selection of a file and processes it.
+	 * @param {Event} event - The event object representing the file selection.
+	 */
 	async function handleFileSelected(event: Event) {
 		let calendarXlsx: File = (event as CustomEvent).detail;
 		if (
@@ -16,9 +20,27 @@
 			return;
 		}
 
-		console.log(calendarXlsx);
-		let courses = await WorkdayCal.parseWorkdayCal(calendarXlsx);
-		if (courses) generateCalendarFile(courses);
+		let courses;
+		try {
+			courses = await WorkdayCal.parseWorkdayCal(calendarXlsx);
+		} catch (error) {
+			console.error('Error parsing calendar file:', error);
+			alert(
+				'There was an error processing your calendar. Check console & open an issue on Github.'
+			);
+			return;
+		}
+
+		if (courses) {
+			try {
+				generateCalendarFile(courses);
+			} catch (error) {
+				console.error('Error generating calendar file:', error);
+				alert(
+					'There was an error generating an ics file. Check console & open an issue on Github.◊'
+				);
+			}
+		}
 	}
 </script>
 

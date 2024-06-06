@@ -1,9 +1,14 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
 	let droppedFile: File;
 
+	/**
+	 * Handles the file upload event.
+	 *
+	 * @param {Event} event - The file upload event.
+	 */
 	function handleFileUpload(event: Event) {
 		let inputElement = event.target as HTMLInputElement;
 		droppedFile = inputElement.files![0];
@@ -11,17 +16,30 @@
 		inputElement.value = '';
 	}
 
+	/**
+	 * Handles the drag over event for the DropZone component.
+	 * Prevents the default behavior and sets the drop effect to 'copy'.
+	 *
+	 * @param {DragEvent} event - The drag event object.
+	 */
 	function handleDragOver(event: DragEvent) {
 		event.preventDefault();
 		event.dataTransfer!.dropEffect = 'copy';
 	}
 
+	/**
+	 * Handles the drop event when a file is dropped onto the drop zone.
+	 * @param {DragEvent} event - The drop event.
+	 */
 	function handleDrop(event: DragEvent) {
 		event.preventDefault();
 		droppedFile = event.dataTransfer!.files[0];
 		dispatch('fileSelected', droppedFile);
 	}
 
+	/**
+	 * Triggers the file picker dialog.
+	 */
 	function triggerFilePicker() {
 		let fileInput = document.getElementById('fileUpload') as HTMLInputElement;
 		fileInput.click();
@@ -48,8 +66,8 @@
 	}
 
 	#dropZone:hover {
-        border-color: orange;
-    }
+		border-color: orange;
+	}
 
 	#dropZone {
 		border-color: gray;
