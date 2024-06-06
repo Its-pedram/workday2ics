@@ -13,6 +13,13 @@ export interface Course {
 	location: string;
 }
 
+interface MeetingPattern {
+	meetingDays: string;
+	startTime: string;
+	endTime: string;
+	location: string;
+}
+
 export class WorkdayCal {
 	static courses: Course[];
 
@@ -48,7 +55,7 @@ export class WorkdayCal {
 	static async parseWorkdayCal(file: File): Promise<Course[] | undefined> {
 		let workbook = new ExcelJS.Workbook();
 		await workbook.xlsx.load(await file.arrayBuffer());
-		let calWorksheet = workbook.getWorksheet('View My Saved Schedules');
+		let calWorksheet = workbook.worksheets[0];
 
 		if (!calWorksheet || !this.validateWorksheet(calWorksheet)) {
 			alert('Invalid Workday calendar xlsx! Please refer to the help button below.');
@@ -61,7 +68,7 @@ export class WorkdayCal {
 
 	/**
 	 * Parses the courses from the given Excel worksheet.
-	 * 
+	 *
 	 * @param calWorksheet - The Excel worksheet containing the course data.
 	 * @returns An array of Course objects.
 	 */
@@ -78,40 +85,38 @@ export class WorkdayCal {
 					? (row.getCell('G').value as string)
 					: 'Prof. TBA'
 				).replace(/\n\n/g, ', '),
-				startDate: this.convertToDate(meetingPattern[0]),
-				endDate: this.convertToDate(meetingPattern[1]),
-				meetingDays: meetingPattern[2].split(' ').map((day) => this.DAY_MAPPING[day]),
-				startTime: meetingPattern[3],
-				endTime: meetingPattern[4],
-				location: meetingPattern[5]
+				startDate: new Date((row.getCell('H').value as Date).getTime() + 24 * 60 * 60 * 1000),
+				endDate: new Date((row.getCell('I').value as Date).getTime() + 24 * 60 * 60 * 1000),
+				meetingDays: meetingPattern.meetingDays.split(' ').map((day) => this.DAY_MAPPING[day]),
+				startTime: meetingPattern.startTime,
+				endTime: meetingPattern.endTime,
+				location: meetingPattern.location
 			};
 			courses.push(course);
-			console.log(course);
 		}
 		return courses;
 	}
 
 	/**
 	 * Parses the meeting pattern and returns an array of strings.
-	 * 
+	 *
 	 * @param meetingPattern - The meeting pattern to be parsed.
 	 * @returns An array of strings representing the parsed meeting pattern.
 	 */
-	static parseMeetingPatterns(meetingPattern: string): Array<string> {
-		let pattern = meetingPattern.split(' | ');
-		return [
-			this.cleanPattern(pattern[0].split(' - ')[0]),
-			this.cleanPattern(pattern[0].split(' - ')[1]),
-			this.cleanPattern(pattern[1]),
-			this.cleanPattern(pattern[2].split(' - ')[0]),
-			this.cleanPattern(pattern[2].split(' - ')[1]),
-			pattern[3] ? this.cleanPattern(pattern[3].replace(/-/g, ' ')) : 'Roomless'
-		];
+	static parseMeetingPatterns(meetingPattern: string): MeetingPattern {
+		let firstPattern = meetingPattern.split('\n')[0];
+		let pattern = firstPattern.split(' | ');
+		return {
+			meetingDays: this.cleanPattern(pattern[1]),
+			startTime: this.cleanPattern(pattern[2].split(' - ')[0]),
+			endTime: this.cleanPattern(pattern[2].split(' - ')[1]),
+			location: pattern[3] ? this.cleanPattern(pattern[3].replace(/-/g, ' ')) : 'Roomless'
+		};
 	}
 
 	/**
 	 * Removes all occurrences of the '|' character from the given pattern and trims any leading or trailing whitespace.
-	 * 
+	 *
 	 * @param pattern - The pattern to clean.
 	 * @returns The cleaned pattern.
 	 */
