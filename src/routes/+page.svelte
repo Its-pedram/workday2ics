@@ -2,7 +2,7 @@
 	import DropZone from './Components/DropZone.svelte';
 	import Modal from './Components/HelpBtn.svelte';
 	import { WorkdayCal } from '$lib/parsing_utils';
-	import { generateCalendarFile } from '$lib/ics_utils';
+	import { iCalendar } from '$lib/ics_utils';
 	import Footer from './Components/Footer.svelte';
 	import HelpBtn from './Components/HelpBtn.svelte';
 
@@ -33,7 +33,7 @@
 
 		if (courses) {
 			try {
-				await generateCalendarFile(courses);
+				await iCalendar.generateCalendarFile(courses);
 			} catch (error) {
 				console.error('Error generating calendar file:', error);
 				alert(
