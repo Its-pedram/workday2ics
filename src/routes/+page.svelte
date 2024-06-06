@@ -33,7 +33,7 @@
 
 		if (courses) {
 			try {
-				generateCalendarFile(courses);
+				await generateCalendarFile(courses);
 			} catch (error) {
 				console.error('Error generating calendar file:', error);
 				alert(
