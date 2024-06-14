@@ -77,6 +77,7 @@ export class WorkdayCal {
 		let courses: Array<Course> = [];
 		for (let i = 4; i <= calWorksheet.rowCount; i++) {
 			let row = calWorksheet.getRow(i);
+			if (row.getCell('H').value as string === undefined) continue;
 			let meetingPattern = this.parseMeetingPatterns(row.getCell('H').value as string);
 			let course: Course = {
 				courseName: row.getCell('E').value as string,
