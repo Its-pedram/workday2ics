@@ -24,17 +24,17 @@ export class WorkdayCal {
 	static courses: Course[];
 
 	static readonly EXPECTED_COLS = [
-		'',
-		'Course',
-		'Grading Basis',
+		'Course Listing',
 		'Credits',
+		'Grading Basis',
 		'Section',
-		'Section Status',
 		'Instructional Format',
+		'Delivery Mode',
+		'Meeting Patterns',
+		'Registration Status',
 		'Instructor',
 		'Start Date',
-		'End Date',
-		'Meeting Patterns'
+		'End Date'
 	];
 
 	static readonly DAY_MAPPING: { [key: string]: string } = {
@@ -64,6 +64,7 @@ export class WorkdayCal {
 
 		this.courses = this.parseCourses(calWorksheet!);
 		return this.courses;
+		return [];
 	}
 
 	/**
@@ -74,19 +75,19 @@ export class WorkdayCal {
 	 */
 	static parseCourses(calWorksheet: ExcelJS.Worksheet): Array<Course> {
 		let courses: Array<Course> = [];
-		for (let i = 3; i <= calWorksheet.rowCount; i++) {
+		for (let i = 4; i <= calWorksheet.rowCount; i++) {
 			let row = calWorksheet.getRow(i);
-			let meetingPattern = this.parseMeetingPatterns(row.getCell('J').value as string);
+			let meetingPattern = this.parseMeetingPatterns(row.getCell('H').value as string);
 			let course: Course = {
-				courseName: row.getCell('D').value as string,
+				courseName: row.getCell('E').value as string,
 				credits: row.getCell('C').value as number,
 				format: row.getCell('F').value as string,
-				instructor: ((row.getCell('G').value as string)
-					? (row.getCell('G').value as string)
+				instructor: ((row.getCell('J').value as string)
+					? (row.getCell('J').value as string)
 					: 'Prof. TBA'
 				).replace(/\n\n/g, ', '),
-				startDate: new Date((row.getCell('H').value as Date).getTime() + 24 * 60 * 60 * 1000),
-				endDate: new Date((row.getCell('I').value as Date).getTime() + 24 * 60 * 60 * 1000),
+				startDate: new Date((row.getCell('K').value as Date).getTime() + 24 * 60 * 60 * 1000),
+				endDate: new Date((row.getCell('L').value as Date).getTime() + 24 * 60 * 60 * 1000),
 				meetingDays: meetingPattern.meetingDays.split(' ').map((day) => this.DAY_MAPPING[day]),
 				startTime: meetingPattern.startTime,
 				endTime: meetingPattern.endTime,
@@ -130,8 +131,11 @@ export class WorkdayCal {
 	 * @returns A boolean indicating whether the worksheet is valid or not.
 	 */
 	static validateWorksheet(calWorksheet: ExcelJS.Worksheet): boolean {
-		const COLS = calWorksheet.getRow(2).values as string[];
-		for (let i = 1; i < this.EXPECTED_COLS.length; i++) {
+		const COLS = (calWorksheet.getRow(3).values as string[]).filter((col) => col !== undefined);
+		if (COLS.length !== this.EXPECTED_COLS.length) {
+			return false;
+		}
+		for (let i = 0; i < this.EXPECTED_COLS.length; i++) {
 			if (COLS[i] !== this.EXPECTED_COLS[i]) {
 				return false;
 			}
