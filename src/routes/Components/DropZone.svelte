@@ -57,7 +57,7 @@
 	style="color: white;"
 >
 	Click or Drop the file here
-	<input type="file" id="fileUpload" on:change={handleFileUpload} class="hidden" />
+	<input type="file" id="fileUpload" accept=".xlsx" on:change={handleFileUpload} class="hidden" />
 </div>
 
 <style lang="postcss">
