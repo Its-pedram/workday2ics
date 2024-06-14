@@ -31,7 +31,7 @@
 			return;
 		}
 
-		if (courses) {
+		if (courses && courses.length > 0) {
 			try {
 				await iCalendar.generateCalendarFile(courses);
 			} catch (error) {
@@ -40,6 +40,8 @@
 					'There was an error generating an ics file. Check console & open an issue on Github.◊'
 				);
 			}
+		} else {
+			alert('No courses with meeting patterns. This would be the case if all of your courses are asynchronous.');
 		}
 	}
 </script>

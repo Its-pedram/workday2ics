@@ -19,8 +19,8 @@
 		<p>❓ How do I find a spreadsheet version of my schedule?</p>
 		<p>
 			➡️ 1. Go to Workday, and click on the "Academics" app. 2. Click on the "Registration &
-			Courses" tab, then select "View My Saved Schedules" on the right. <br />
-			3. Select the schedule you want to export, then click on the "Export to Excel" button (it looks
+			Courses" tab, then select "View My Courses" on the right. <br />
+			3. Click on the "Export to Excel" button (it looks
 			like a small notebook with a 'X' on it). <br />
 			Note: There are two of those buttons on that page, pick the one closest to your schedule:
 			<br />
