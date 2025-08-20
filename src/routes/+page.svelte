@@ -37,7 +37,7 @@
 			} catch (error) {
 				console.error('Error generating calendar file:', error);
 				alert(
-					'There was an error generating an ics file. Check console & open an issue on Github.◊'
+					'There was an error generating an ics file. Check console & open an issue on Github.'
 				);
 			}
 		} else {

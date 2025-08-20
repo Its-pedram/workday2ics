@@ -23,19 +23,21 @@ interface MeetingPattern {
 export class WorkdayCal {
 	static courses: Course[];
 
-	static readonly EXPECTED_COLS = [
-		'Course Listing',
-		'Credits',
-		'Grading Basis',
-		'Section',
-		'Instructional Format',
-		'Delivery Mode',
-		'Meeting Patterns',
-		'Registration Status',
-		'Instructor',
-		'Start Date',
-		'End Date'
-	];
+	static readonly COLS_MAP: { [key: string]: string } = {
+		'Course Listing': 'B',
+		'Drop': 'C',
+		'Swap': 'D',
+		'Credits': 'E',
+		'Grading Basis': 'F',
+		'Section': 'G',
+		'Registration Status': 'H',
+		'Instructional Format': 'I',
+		'Delivery Mode': 'J',
+		'Meeting Patterns': 'K',
+		'Instructor': 'L',
+		'Start Date': 'M',
+		'End Date': 'N'
+	};
 
 	static readonly DAY_MAPPING: { [key: string]: string } = {
 		Sun: 'SU',
@@ -64,7 +66,6 @@ export class WorkdayCal {
 
 		this.courses = this.parseCourses(calWorksheet!);
 		return this.courses;
-		return [];
 	}
 
 	/**
@@ -77,18 +78,18 @@ export class WorkdayCal {
 		let courses: Array<Course> = [];
 		for (let i = 4; i <= calWorksheet.rowCount; i++) {
 			let row = calWorksheet.getRow(i);
-			if (row.getCell('H').value as string === null) continue;
-			let meetingPattern = this.parseMeetingPatterns(row.getCell('H').value as string);
+			if (row.getCell(this.COLS_MAP['Meeting Patterns']).value as string === null) continue;
+			let meetingPattern = this.parseMeetingPatterns(row.getCell(this.COLS_MAP['Meeting Patterns']).value as string);
 			let course: Course = {
-				courseName: row.getCell('E').value as string,
-				credits: row.getCell('C').value as number,
-				format: row.getCell('F').value as string,
-				instructor: ((row.getCell('J').value as string)
-					? (row.getCell('J').value as string)
+				courseName: row.getCell(this.COLS_MAP['Section']).value as string,
+				credits: row.getCell(this.COLS_MAP['Credits']).value as number,
+				format: row.getCell(this.COLS_MAP['Instructional Format']).value as string,
+				instructor: ((row.getCell(this.COLS_MAP['Instructor']).value as string)
+					? (row.getCell(this.COLS_MAP['Instructor']).value as string)
 					: 'Prof. TBA'
 				).replace(/\n\n/g, ', '),
-				startDate: new Date((row.getCell('K').value as Date).getTime() + 24 * 60 * 60 * 1000),
-				endDate: new Date((row.getCell('L').value as Date).getTime() + 24 * 60 * 60 * 1000),
+				startDate: new Date((row.getCell(this.COLS_MAP['Start Date']).value as Date).getTime() + 24 * 60 * 60 * 1000),
+				endDate: new Date((row.getCell(this.COLS_MAP['End Date']).value as Date).getTime() + 24 * 60 * 60 * 1000),
 				meetingDays: meetingPattern.meetingDays.split(' ').map((day) => this.DAY_MAPPING[day]),
 				startTime: meetingPattern.startTime,
 				endTime: meetingPattern.endTime,
@@ -112,7 +113,7 @@ export class WorkdayCal {
 			meetingDays: this.cleanPattern(pattern[1]),
 			startTime: this.cleanPattern(pattern[2].split(' - ')[0]),
 			endTime: this.cleanPattern(pattern[2].split(' - ')[1]),
-			location: pattern[3] ? this.cleanPattern(pattern[3].replace(/-/g, ' ')) : 'Roomless'
+			location: pattern[3] ? `${pattern[4]} | ${pattern[5]} | ${pattern[6]}` : 'Roomless'
 		};
 	}
 
@@ -133,11 +134,11 @@ export class WorkdayCal {
 	 */
 	static validateWorksheet(calWorksheet: ExcelJS.Worksheet): boolean {
 		const COLS = (calWorksheet.getRow(3).values as string[]).filter((col) => col !== undefined);
-		if (COLS.length !== this.EXPECTED_COLS.length) {
+		if (COLS.length !== Object.keys(this.COLS_MAP).length) {
 			return false;
 		}
-		for (let i = 0; i < this.EXPECTED_COLS.length; i++) {
-			if (COLS[i] !== this.EXPECTED_COLS[i]) {
+		for (let i = 0; i < Object.keys(this.COLS_MAP).length; i++) {
+			if (COLS[i] !== Object.keys(this.COLS_MAP)[i]) {
 				return false;
 			}
 		}
