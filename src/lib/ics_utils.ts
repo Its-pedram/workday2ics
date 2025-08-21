@@ -132,10 +132,12 @@ export class iCalendar {
 		let [time, period] = timeString.split(' ');
 		let [hours, minutes] = time.split(':').map(Number);
 
-		if (period.toLowerCase() === 'p.m.' && hours !== 12) {
-			hours += 12;
-		} else if (period.toLowerCase() === 'a.m.' && hours === 12) {
-			hours = 0;
+		if (period) {
+			if (period.toLowerCase() === 'p.m.' && hours !== 12) {
+				hours += 12;
+			} else if (period.toLowerCase() === 'a.m.' && hours === 12) {
+				hours = 0;
+			}
 		}
 
 		let newDate = new Date(date);
