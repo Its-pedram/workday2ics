@@ -134,9 +134,6 @@ export class WorkdayCal {
 	 */
 	static validateWorksheet(calWorksheet: ExcelJS.Worksheet): boolean {
 		const COLS = (calWorksheet.getRow(3).values as string[]).filter((col) => col !== undefined);
-		if (COLS.length !== Object.keys(this.COLS_MAP).length) {
-			return false;
-		}
 		for (let i = 0; i < Object.keys(this.COLS_MAP).length; i++) {
 			if (COLS[i] !== Object.keys(this.COLS_MAP)[i]) {
 				return false;
