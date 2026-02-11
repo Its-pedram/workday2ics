@@ -470,16 +470,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/kit@npm:^2.35.0":
-  version: 2.35.0
-  resolution: "@sveltejs/kit@npm:2.35.0"
+"@sveltejs/kit@npm:^2.49.5":
+  version: 2.49.5
+  resolution: "@sveltejs/kit@npm:2.49.5"
   dependencies:
     "@standard-schema/spec": "npm:^1.0.0"
     "@sveltejs/acorn-typescript": "npm:^1.0.5"
     "@types/cookie": "npm:^0.6.0"
     acorn: "npm:^8.14.1"
     cookie: "npm:^0.6.0"
-    devalue: "npm:^5.1.0"
+    devalue: "npm:^5.6.2"
     esm-env: "npm:^1.2.2"
     kleur: "npm:^4.1.5"
     magic-string: "npm:^0.30.5"
@@ -491,13 +491,16 @@ __metadata:
     "@opentelemetry/api": ^1.0.0
     "@sveltejs/vite-plugin-svelte": ^3.0.0 || ^4.0.0-next.1 || ^5.0.0 || ^6.0.0-next.0
     svelte: ^4.0.0 || ^5.0.0-next.0
+    typescript: ^5.3.3
     vite: ^5.0.3 || ^6.0.0 || ^7.0.0-beta.0
   peerDependenciesMeta:
     "@opentelemetry/api":
       optional: true
+    typescript:
+      optional: true
   bin:
     svelte-kit: svelte-kit.js
-  checksum: 10c0/e9814c75fef69e63d674783abbd5dabf289947c66e0f1bb2373c8b7a8cfc12453847f622419edec8f69fed479312acec3ff8bd78ae3cc07b6ff097b286aa5972
+  checksum: 10c0/c17b21f3482167c92cf301f3599b7acf9be68dcc0d61e23fe1f001d1c802e55aa7629972444c499604a6d45d75d0535a359e8c1c7eac4b18542aec8c8ba22d3d
   languageName: node
   linkType: hard
 
@@ -1117,10 +1120,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"devalue@npm:^5.1.0":
-  version: 5.1.1
-  resolution: "devalue@npm:5.1.1"
-  checksum: 10c0/f6717a856fd54216959abd341cb189e47a9b37d72d8419e055ae77567ff4ed0fb683b1ffb6a71067f645adae5991bffabe6468a3e2385937bff49273e71c1f51
+"devalue@npm:^5.6.2":
+  version: 5.6.2
+  resolution: "devalue@npm:5.6.2"
+  checksum: 10c0/654f257ec525a2d3f35c941bfbb361148bc65ced060710969fbaa1c45abf1c9d7c4fcb77310bf8d2fb73c34cf60bad10710e7bf5b15643bbc082518ea04cb00b
   languageName: node
   linkType: hard
 
@@ -3342,7 +3345,7 @@ __metadata:
   resolution: "workday2ics@workspace:."
   dependencies:
     "@sveltejs/adapter-auto": "npm:^3.3.1"
-    "@sveltejs/kit": "npm:^2.35.0"
+    "@sveltejs/kit": "npm:^2.49.5"
     "@sveltejs/vite-plugin-svelte": "npm:^3.1.2"
     autoprefixer: "npm:^10.4.21"
     exceljs: "npm:^4.4.0"
